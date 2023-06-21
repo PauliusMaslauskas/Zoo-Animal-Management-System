@@ -1,6 +1,6 @@
-package com.app.zooanimalmanagementsystem.Repositories;
+package com.app.zooanimalmanagementsystem.repositories;
 
-import com.app.zooanimalmanagementsystem.Entities.Animal;
+import com.app.zooanimalmanagementsystem.entities.Animal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

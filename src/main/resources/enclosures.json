@@ -1,0 +1,64 @@
+{
+    "enclosures": [
+        {
+            "name": "Enclosure 1",
+            "size": "Large",
+            "location": "Outside",
+            "objects": [
+                "Rocks",
+                "Logs",
+                "Water Pond"
+            ]
+        },
+        {
+            "name": "Enclosure 2",
+            "size": "Medium",
+            "location": "Outside",
+            "objects": [
+                "Climbing Structures",
+                "Shelter",
+                "Pool"
+            ]
+        },
+        {
+            "name": "Enclosure 3",
+            "size": "Huge",
+            "location": "Outside",
+            "objects": [
+                "Trees",
+                "Mud Bath Area",
+                "Water Trough"
+            ]
+        },
+        {
+            "name": "Enclosure 4",
+            "size": "Large",
+            "location": "Outside",
+            "objects": [
+                "Tall Trees",
+                "Feeding Platform",
+                "Shade Structure"
+            ]
+        },
+        {
+            "name": "Enclosure 5",
+            "size": "Medium",
+            "location": "Inside",
+            "objects": [
+                "Tunnels",
+                "Climbing Structures",
+                "Enrichment Toys"
+            ]
+        },
+        {
+            "name": "Enclosure 6",
+            "size": "Small",
+            "location": "Inside",
+            "objects": [
+                "Nesting Boxes",
+                "Perches",
+                "Swing"
+            ]
+        }
+    ]
+}
