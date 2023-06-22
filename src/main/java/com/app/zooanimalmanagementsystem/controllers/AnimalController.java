@@ -24,7 +24,6 @@ public class AnimalController {
 
     @PostMapping("/animal")
     public Animal addAnimal(@RequestBody AnimalDTO animalDTO) {
-        zooService.accommodateAnimals();
         return animalService.saveAnimal(animalDTO);
     }
 
