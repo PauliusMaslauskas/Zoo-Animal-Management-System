@@ -1,29 +1,23 @@
 package com.app.zooanimalmanagementsystem.entities;
 
-import com.app.zooanimalmanagementsystem.enums.Diet;
+import com.app.zooanimalmanagementsystem.enums.EnclosureSize;
+import com.app.zooanimalmanagementsystem.enums.Location;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "animal")
-public class Animal {
-
+@Entity
+public class Zoo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String species;
-
-    private Diet food;
-
-    private int amount;
-
-    @ManyToOne
-    @JoinColumn(name = "enclosure_id")
-    private Enclosure enclosure;
+    @OneToMany(mappedBy = "zoo")
+    private List<Enclosure> enclosures;
 }
