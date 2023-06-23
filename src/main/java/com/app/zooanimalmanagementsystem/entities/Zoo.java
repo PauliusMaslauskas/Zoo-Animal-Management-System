@@ -1,7 +1,5 @@
 package com.app.zooanimalmanagementsystem.entities;
 
-import com.app.zooanimalmanagementsystem.enums.EnclosureSize;
-import com.app.zooanimalmanagementsystem.enums.Location;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,5 @@
 package com.app.zooanimalmanagementsystem.entities;
 
-import com.app.zooanimalmanagementsystem.enums.EnclosureSize;
 import com.app.zooanimalmanagementsystem.enums.Location;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,7 +19,7 @@ public class Enclosure {
 
     private String name;
 
-    private EnclosureSize enclosureSize;
+    private int enclosureSize;
 
     private Location location;
 
@@ -31,6 +30,6 @@ public class Enclosure {
     private List<EnclosureObject> enclosureObjects;
 
     @ManyToOne
-    @JoinColumn(name = "zoo_id")
+    @JoinColumn(name = "zoo_id", nullable = false)
     private Zoo zoo;
 }
