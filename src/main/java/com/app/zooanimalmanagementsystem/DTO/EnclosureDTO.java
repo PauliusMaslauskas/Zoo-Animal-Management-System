@@ -4,15 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Getter
 @Setter
-public class AnimalDTO {
+public class EnclosureDTO {
 
-    private String species;
+    private String name;
 
-    private String food;
+    private int size;
 
-    private int amount;
+    private String location;
 
+    private List<String> objects;
 }

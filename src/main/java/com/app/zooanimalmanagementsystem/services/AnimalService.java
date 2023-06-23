@@ -46,7 +46,6 @@ public class AnimalService {
         animal.setFood(Diet.valueOf(animalDTO.getFood().toUpperCase()));
         animal.setSpecies(animalDTO.getSpecies());
         animal.setAmount(animalDTO.getAmount());
-
         return animal;
     }
 }
