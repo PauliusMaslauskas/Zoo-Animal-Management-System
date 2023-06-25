@@ -48,9 +48,9 @@ public class ZooService implements com.app.zooanimalmanagementsystem.interfaces.
             newAnimal.setEnclosure(enclosure.get());
 
             enclosure.get().getAnimals().add(newAnimal);
-
             animals.add(newAnimal);
         }
+
         animalRepository.saveAll(animals);
     }
 }
