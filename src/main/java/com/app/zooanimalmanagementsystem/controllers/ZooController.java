@@ -6,11 +6,11 @@ import com.app.zooanimalmanagementsystem.entities.Animal;
 import com.app.zooanimalmanagementsystem.entities.Enclosure;
 import com.app.zooanimalmanagementsystem.enums.Diet;
 import com.app.zooanimalmanagementsystem.repositories.AnimalRepository;
-import com.app.zooanimalmanagementsystem.repositories.EnclosureRepository;
 import com.app.zooanimalmanagementsystem.services.ZooService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,31 +18,27 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @RestController
 public class ZooController {
+
     private ZooService zooService;
-    private EnclosureRepository enclosureRepository;
     private AnimalRepository animalRepository;
 
     @PostMapping("/transfer/{id}")
     public void transferAnimals(@PathVariable("id") int id, @RequestBody ZooDTO zooDTO) {
         List<Enclosure> enclosures = zooService.getAll(id);
-        List<AnimalDTO> vegies = zooDTO.getAnimals().stream()
-                .filter(animal -> animal.getFood().equals(Diet.HERBIVORE.toString()))
-                .toList();
+        List<Animal> animals = new ArrayList<>();
 
-        int total = vegies.stream().mapToInt(AnimalDTO::getAmount).sum();
-
-        for (AnimalDTO animal:
+        for (AnimalDTO animal :
                 zooDTO.getAnimals()) {
 
             Optional<Enclosure> enclosure = enclosures.stream()
-                    .filter(enc -> enc.getEnclosureSize() - enc.getAnimals().stream().mapToInt(Animal::getAmount).sum() >= animal.getAmount())
-                    .filter(enc -> enc.getAnimals().size() == 0 || enc.getAnimals().get(0).getFood() == (Diet.valueOf(animal.getFood().toUpperCase())))
-                    .filter(enc -> enc.getAnimals().size() == 0 ||
-                                    enc.getAnimals().get(0).getFood() == Diet.HERBIVORE ||
-                            enc.getAnimals().get(0).getFood() == Diet.CARNIVORE && enc.getAnimals().stream().collect(Collectors.groupingBy(Animal::getSpecies)).size() < 2 )
+                    .filter(enc -> filterEnclosureSize(enc, animal))
+                    .filter(enc -> filterEnclosureFood(enc, animal))
+                    .filter(this::filterEnclosureAnimalSpecies)
                     .findFirst();
 
-
+            if (enclosure.isEmpty()) {
+                throw new NullPointerException("There is no empty enclosure.");
+            }
 
             Animal newAnimal = new Animal();
             newAnimal.setAmount(animal.getAmount());
@@ -52,7 +48,35 @@ public class ZooController {
 
             enclosure.get().getAnimals().add(newAnimal);
 
-            animalRepository.save(newAnimal);
+            animals.add(newAnimal);
         }
+        animalRepository.saveAll(animals);
     }
+
+    private boolean filterEnclosureSize(Enclosure enclosure, AnimalDTO animal) {
+        return enclosure.getEnclosureSize() - enclosure.getAnimals().stream().mapToInt(Animal::getAmount).sum() >= animal.getAmount();
+    }
+
+    private boolean filterEnclosureFood(Enclosure enclosure, AnimalDTO animal) {
+        return enclosure.getAnimals().size() == 0 || enclosure.getAnimals().get(0).getFood() == Diet.valueOf(animal.getFood().toUpperCase());
+    }
+
+    private boolean filterEnclosureAnimalSpecies(Enclosure enclosure) {
+        if (enclosure.getAnimals().size() == 0) {
+            return true;
+        }
+
+        Animal firstAnimal = enclosure.getAnimals().get(0);
+
+        if (firstAnimal.getFood() == Diet.HERBIVORE) {
+            return true;
+        }
+
+        if (firstAnimal.getFood() == Diet.CARNIVORE) {
+            return enclosure.getAnimals().stream().collect(Collectors.groupingBy(Animal::getSpecies)).size() < 2;
+        }
+
+        return false;
+    }
+
 }

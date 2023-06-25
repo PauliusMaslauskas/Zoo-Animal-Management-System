@@ -5,15 +5,17 @@ import com.app.zooanimalmanagementsystem.repositories.EnclosureRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 
-@AllArgsConstructor
 @Service
-public class EnclosureService {
+@AllArgsConstructor
+public class ZooService {
 
-    private final EnclosureRepository enclosureRepository;
+    private EnclosureRepository enclosureRepository;
 
-    public List<Enclosure> getAllEnclosures() {
-        return enclosureRepository.findAll();
+    public List<Enclosure> getAll(int id) {
+        return enclosureRepository.findAllByZooId(id);
     }
 }
+
