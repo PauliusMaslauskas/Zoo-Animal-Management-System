@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,12 +22,11 @@ public class ZooService implements com.app.zooanimalmanagementsystem.interfaces.
     private AnimalRepository animalRepository;
     private EnclosureService enclosureService;
 
-    public void transferAnimals(int zooId, ZooDTO zooDTO) {
+    public void transferAnimals(int zooId, Collection<AnimalDTO> animalDtos) {
         List<Enclosure> enclosures = enclosureService.getAllByZooId(zooId);
         List<Animal> animals = new ArrayList<>();
 
-        for (AnimalDTO animal :
-                zooDTO.getAnimals()) {
+        for (AnimalDTO animal : animalDtos) {
 
             Optional<Enclosure> enclosure = enclosureService.findFittingEnclosure(enclosures, animal);
 

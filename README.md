@@ -102,3 +102,18 @@ Request body:
     ]
 }
 ```
+
+### Add new animal to an existing zoo
+
+`POST http://localhost:4200/animal`
+
+```JSON
+{
+    "zooId": 1,
+    "animal": {
+        "species": "Elephant",
+        "food": "Herbivore",
+        "amount": 5
+    }
+}
+```

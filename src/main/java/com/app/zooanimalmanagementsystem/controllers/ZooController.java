@@ -19,7 +19,7 @@ public class ZooController {
     public ResponseEntity<String> transferAnimals(@PathVariable("id") int id, @RequestBody ZooDTO zooDTO) {
 
         try {
-            zooService.transferAnimals(id, zooDTO);
+            zooService.transferAnimals(id, zooDTO.getAnimals());
             return ResponseEntity.ok(null);
         } catch (NullPointerException ex) {
             logger.error(ex.getMessage(), ex);
