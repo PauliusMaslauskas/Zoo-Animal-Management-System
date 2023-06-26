@@ -7,12 +7,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AnimalDTO {
+public class AddAnimalDTO {
 
-    private String species;
+    private AnimalDTO animal;
 
-    private String food;
-
-    private int amount;
-
+    private int zooId;
 }

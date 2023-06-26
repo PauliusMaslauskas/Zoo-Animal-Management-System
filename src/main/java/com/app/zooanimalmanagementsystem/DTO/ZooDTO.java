@@ -2,17 +2,16 @@ package com.app.zooanimalmanagementsystem.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
+import java.util.List;
+
+@NoArgsConstructor
 @Getter
 @Setter
-public class AnimalDTO {
+public class ZooDTO {
 
-    private String species;
-
-    private String food;
-
-    private int amount;
+    private List<AnimalDTO> animals;
 
 }
