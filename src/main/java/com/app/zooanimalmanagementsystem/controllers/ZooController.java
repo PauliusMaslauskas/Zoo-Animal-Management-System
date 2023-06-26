@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class ZooController {
 
     private final ZooService zooService;
-
     Logger logger = LoggerFactory.getLogger(ZooController.class);
 
     @PostMapping("/transfer/{id}")

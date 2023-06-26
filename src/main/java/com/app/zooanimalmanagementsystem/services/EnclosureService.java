@@ -16,29 +16,27 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Service
 public class EnclosureService implements com.app.zooanimalmanagementsystem.interfaces.EnclosureService {
-
+    private static final int MAX_CARNIVORES_PER_ENCLOSURE = 2;
     private final EnclosureRepository enclosureRepository;
 
-    public List<Enclosure> getAllEnclosures() {
-        return enclosureRepository.findAll();
+    public List<Enclosure> getAllByZooId(int zooId) {
+        return enclosureRepository.findAllByZooId(zooId);
     }
 
     public Optional<Enclosure> findFittingEnclosure(Collection<Enclosure> enclosures, AnimalDTO animal) {
-        Optional<Enclosure> enclosure = enclosures.stream()
-                .filter(enc -> filterEnclosureSize(enc, animal))
-                .filter(enc -> filterEnclosureFood(enc, animal))
+        return enclosures.stream()
+                .filter(enc -> filterEnclosureSize(enc, animal.getAmount()))
+                .filter(enc -> filterEnclosureDiet(enc, animal.getFood()))
                 .filter(this::filterEnclosureAnimalSpecies)
                 .findFirst();
-
-        return enclosure ;
     }
 
-    private boolean filterEnclosureSize(Enclosure enclosure, AnimalDTO animal) {
-        return enclosure.getEnclosureSize() - enclosure.getAnimals().stream().mapToInt(Animal::getAmount).sum() >= animal.getAmount();
+    private boolean filterEnclosureSize(Enclosure enclosure, int amount) {
+        return enclosure.getEnclosureSize() - enclosure.getAnimals().stream().mapToInt(Animal::getAmount).sum() >= amount;
     }
 
-    private boolean filterEnclosureFood(Enclosure enclosure, AnimalDTO animal) {
-        return enclosure.getAnimals().size() == 0 || enclosure.getAnimals().get(0).getFood() == Diet.valueOf(animal.getFood().toUpperCase());
+    private boolean filterEnclosureDiet(Enclosure enclosure, String diet) {
+        return enclosure.getAnimals().size() == 0 || enclosure.getAnimals().get(0).getFood() == Diet.valueOf(diet.toUpperCase());
     }
 
     private boolean filterEnclosureAnimalSpecies(Enclosure enclosure) {
@@ -53,7 +51,7 @@ public class EnclosureService implements com.app.zooanimalmanagementsystem.inter
         }
 
         if (firstAnimal.getFood() == Diet.CARNIVORE) {
-            return enclosure.getAnimals().stream().collect(Collectors.groupingBy(Animal::getSpecies)).size() < 2;
+            return enclosure.getAnimals().stream().collect(Collectors.groupingBy(Animal::getSpecies)).size() < MAX_CARNIVORES_PER_ENCLOSURE;
         }
 
         return false;

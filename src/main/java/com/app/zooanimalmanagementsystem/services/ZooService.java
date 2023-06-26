@@ -18,18 +18,11 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class ZooService implements com.app.zooanimalmanagementsystem.interfaces.ZooService {
-
-    private EnclosureRepository enclosureRepository;
     private AnimalRepository animalRepository;
     private EnclosureService enclosureService;
 
-
-    public List<Enclosure> getAll(int id) {
-        return enclosureRepository.findAllByZooId(id);
-    }
-
     public void transferAnimals(int zooId, ZooDTO zooDTO) {
-        List<Enclosure> enclosures = getAll(zooId);
+        List<Enclosure> enclosures = enclosureService.getAllByZooId(zooId);
         List<Animal> animals = new ArrayList<>();
 
         for (AnimalDTO animal :
